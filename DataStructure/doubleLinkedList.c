@@ -32,6 +32,11 @@ line* addLine(line * head,int Value){
 }
 
 void eachLine(line * list){
+    printf("list:%p\n",list->prev);
+    if(list->prev == NULL){
+        printf("this list is NULL!\n");
+        return;
+    }
     printf("Fist:%d->",list->data);
     list = list->prev;
     while (list)
@@ -44,20 +49,51 @@ void eachLine(line * list){
         list = list->prev;
     }
     
- 
 }
 
-// line* delLine(){
+line*  delLine(line * head,int Value){
+    int i=1;
+    if(head->prev==NULL){
+        printf("this is empty!\n");
+        return head;
+    }
+    line *temp,*body;
+    while (head)
+    {   
+        i++;
+        printf("head:    %d prev:%p next:%p\n",head->data,head->prev,head->next);
+        printf("%d prev:%p next:%p\n",temp->data,temp->prev,temp->next);
+        if(head->data == Value){
+            head = head->prev;
+            temp = head;
+            printf("head->data:%d\n",i);
+            break;
+        }else{
+            temp = body;
+        }
+        printf("%d\n",i);
+        body = head->next;
+        body->prev = NULL;
+        if(head->prev==NULL){
+            printf("head->prev:%d\n",i);
+            break;
+        }
+        head = head->prev;
 
-// }
+    }
+    return temp;
+}
 
 void main(){
     line *head,*temp1;
-    int initVal;
+    int initVal,i;
     initVal = 1997;
     head = initLine(head,initVal);
-    temp1 = addLine(head,2020);
-    temp1 = addLine(temp1,317);
-    temp1 = addLine(temp1,5317);
-    eachLine(temp1);
+    for(i=8;i>0;i--){
+        head = addLine(head,i);
+    }
+    eachLine(head);
+    head = delLine(head,6);
+    printf("headheadhead%d prev:%p next:%p\n",head->data,head->prev,head->next);
+    eachLine(head);
 }
