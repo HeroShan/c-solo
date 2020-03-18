@@ -51,37 +51,30 @@ void eachLine(line * list){
     
 }
 
-line*  delLine(line * head,int Value){
-    int i=1;
-    if(head->prev==NULL){
-        printf("this is empty!\n");
-        return head;
-    }
-    line *temp,*body;
-    while (head)
-    {   
-        i++;
-        printf("head:    %d prev:%p next:%p\n",head->data,head->prev,head->next);
-        printf("%d prev:%p next:%p\n",temp->data,temp->prev,temp->next);
-        if(head->data == Value){
-            head = head->prev;
-            temp = head;
-            printf("head->data:%d\n",i);
-            break;
-        }else{
-            temp = body;
-        }
-        printf("%d\n",i);
-        body = head->next;
-        body->prev = NULL;
+int  delLine(line * head,int Value){
         if(head->prev==NULL){
-            printf("head->prev:%d\n",i);
-            break;
+            return -1;
         }
-        head = head->prev;
+       
+        while (NULL != head->prev )
+        {
+            
+            if(head->data == Value){
+                if(head->next == NULL){
+                head->prev->next->prev = head->prev;
+                head->prev->next->next = NULL;
+                return 0;
+                }
 
-    }
-    return temp;
+                head->prev->next = head->next;
+                head->next->prev = head->prev;
+                return 0;
+            }
+            head = head->prev;
+            
+        }
+        printf("Don't find this NODE!\n");
+        
 }
 
 void main(){
@@ -89,11 +82,10 @@ void main(){
     int initVal,i;
     initVal = 1997;
     head = initLine(head,initVal);
-    for(i=8;i>0;i--){
+    for(i=5;i>0;i--){
         head = addLine(head,i);
     }
     eachLine(head);
-    head = delLine(head,6);
-    printf("headheadhead%d prev:%p next:%p\n",head->data,head->prev,head->next);
+    i = delLine(head,1);
     eachLine(head);
 }
