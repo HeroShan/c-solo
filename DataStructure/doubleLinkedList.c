@@ -52,40 +52,47 @@ void eachLine(line * list){
 }
 
 int  delLine(line * head,int Value){
+        line *temp = head;
+        line **pprev;
         if(head->prev==NULL){
             return -1;
         }
        
-        while (NULL != head->prev )
+        while (head->prev != NULL)
         {
-            
+            //printf("while : ---data: %d ,%p\n",head->data,head->prev);
             if(head->data == Value){
-                if(head->next == NULL){
-                head->prev->next->prev = head->prev;
-                head->prev->next->next = NULL;
-                return 0;
-                }
-
-                head->prev->next = head->next;
+                if(NULL == head->next){     //链尾删除
+                head->prev->next = NULL;
+                free(head);
+                return head->data;
+                }else{
+                head->prev->next = head->next;      //普通删除
                 head->next->prev = head->prev;
-                return 0;
+                return head->data;
+                }
             }
             head = head->prev;
-            
         }
-        printf("Don't find this NODE!\n");
+        if(head->data == Value){
+                head->next->prev = NULL;        //链头删除
+                return head->data;
+            }
+        printf("Don't find this %d NODE!\n",Value);
+        return -1;
         
 }
 
 void main(){
     line *head,*temp1;
     int initVal,i;
-    initVal = 1997;
+    initVal = 99;
     head = initLine(head,initVal);
-    for(i=5;i>0;i--){
+    for(i=15;i>0;i--){
         head = addLine(head,i);
     }
     eachLine(head);
     i = delLine(head,1);
+    i = delLine(head,3);
     eachLine(head);
 }
